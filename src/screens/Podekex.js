@@ -1,23 +1,16 @@
 import {FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import React, {useState, useEffect} from 'react';
-import {getPokemonApi, getPokemonDetailsByUrlApi} from '../api/pokemon';
+import {getPokemonApi} from '../api/pokemon';
+import PokemonCard from '../components/PokemonCard';
 
 export default function Podekex() {
   const [pokemons, setPokemons] = useState([]);
-  console.log(pokemons);
   useEffect(() => {
     getPokemonApi()
       .then(res => setPokemons(res.results))
       .catch(e => console.log(e));
   }, []);
 
-  const renderItem = ({item}) => {
-    return (
-      <View>
-        <Text>{item.name}</Text>
-      </View>
-    );
-  };
   return (
     <SafeAreaView>
       <FlatList
@@ -25,7 +18,7 @@ export default function Podekex() {
         contentContainerStyle={styles.flatListContentContainer}
         data={pokemons}
         keyExtractor={pokemon => String(pokemon.name)}
-        renderItem={renderItem}
+        renderItem={({item}) => <PokemonCard pokemon={item} />}
       />
     </SafeAreaView>
   );
