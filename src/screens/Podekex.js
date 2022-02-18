@@ -1,10 +1,16 @@
-import {FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {getPokemonApi, getPokemonDetailsByUrlApi} from '../api/pokemon';
 import PokemonCard from '../components/PokemonCard';
 
 export default function Podekex() {
   const [pokemons, setPokemons] = useState([]);
+  const [nextUrl, setNextUrl] = useState(null);
   useEffect(() => {
     (async () => {
       await loadPokemons();
@@ -14,8 +20,8 @@ export default function Podekex() {
 
   const loadPokemons = async () => {
     try {
-      const response = await getPokemonApi();
-
+      const response = await getPokemonApi(nextUrl);
+      setNextUrl(response.next);
       const pokemonsArray = [];
       for await (const pokemon of response.results) {
         const pokemonDetails = await getPokemonDetailsByUrlApi(pokemon.url);
@@ -35,6 +41,10 @@ export default function Podekex() {
     }
   };
 
+  const loadMore = () => {
+    loadPokemons();
+  };
+
   return (
     <SafeAreaView>
       <FlatList
@@ -43,6 +53,11 @@ export default function Podekex() {
         data={pokemons}
         keyExtractor={pokemon => String(pokemon.name)}
         renderItem={({item}) => <PokemonCard pokemon={item} />}
+        onEndReached={nextUrl && loadMore}
+        onEndReachedThreshold={0.1}
+        ListFooterComponent={
+          nextUrl && <ActivityIndicator size="large" style={styles.spinner} />
+        }
       />
     </SafeAreaView>
   );
@@ -51,5 +66,9 @@ export default function Podekex() {
 const styles = StyleSheet.create({
   flatListContentContainer: {
     paddingHorizontal: 5,
+  },
+  spinner: {
+    marginTop: 20,
+    marginBottom: 60,
   },
 });

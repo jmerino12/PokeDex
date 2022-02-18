@@ -7,8 +7,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import getColorByPokemonType from '../utils/getColorByPokemonType';
-import { capitalize } from 'lodash';
-
+import {capitalize} from 'lodash';
 
 export default function PokemonCard(props) {
   const {pokemon} = props;
