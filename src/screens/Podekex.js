@@ -3,6 +3,7 @@ import {
   SafeAreaView,
   StyleSheet,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {getPokemonApi, getPokemonDetailsByUrlApi} from '../api/pokemon';
@@ -21,6 +22,7 @@ export default function Podekex() {
   const loadPokemons = async () => {
     try {
       const response = await getPokemonApi(nextUrl);
+      console.log(response.next);
       setNextUrl(response.next);
       const pokemonsArray = [];
       for await (const pokemon of response.results) {
@@ -66,9 +68,10 @@ export default function Podekex() {
 const styles = StyleSheet.create({
   flatListContentContainer: {
     paddingHorizontal: 5,
+    marginTop: Platform.OS === 'android' ? 30 : 0,
   },
   spinner: {
     marginTop: 20,
-    marginBottom: 60,
+    marginBottom: Platform.OS === 'android' ? 90 : 60,
   },
 });
