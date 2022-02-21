@@ -16,7 +16,6 @@ export async function addPokemonFavoriteApi(id) {
     const favorites = await getPokemonsFavoriteApi();
     favorites.push(id);
     await AsyncStorage.setItem(FAVORITE_STORAGE, JSON.stringify(favorites));
-    return true;
   } catch (error) {
     throw error;
   }
