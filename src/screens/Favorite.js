@@ -1,10 +1,11 @@
 import {FlatList, Text, StyleSheet, Platform} from 'react-native';
-import React, { useState, useCallback} from 'react';
+import React, {useState, useCallback} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
 import {getPokemonsFavoriteApi} from '../api/favorite';
 import useAuth from '../hooks/useAuth';
 import {getPokemonDetailsByIdApi} from '../api/pokemon';
 import PokemonCard from '../components/PokemonCard';
+import NoLogged from '../components/NoLogged';
 
 export default function Favorite() {
   const [pokemons, setPokemons] = useState([]);
@@ -36,7 +37,7 @@ export default function Favorite() {
   );
 
   return !auth ? (
-    <Text>Usuario no logueado</Text>
+    <NoLogged />
   ) : (
     <FlatList
       numColumns={2}
