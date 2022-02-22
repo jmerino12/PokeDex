@@ -1,7 +1,11 @@
 import {View, Text} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {addPokemonFavoriteApi, isPokemonFavoriteApi, removePokemonFavoriteApi} from '../../api/favorite';
+import {
+  addPokemonFavoriteApi,
+  isPokemonFavoriteApi,
+  removePokemonFavoriteApi,
+} from '../../api/favorite';
 
 export default function Favorite(props) {
   const {id} = props;
